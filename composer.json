@@ -1,0 +1,39 @@
+{
+    "name": "gap/http",
+    "type": "library",
+    "authors": [
+        {
+            "name": "zhanjh",
+            "email": "zhanjh@126.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "symfony/http-foundation": "^3.3",
+        "psr/http-message": "^1.0",
+        "symfony/psr-http-message-bridge": "^1.0",
+        "zendframework/zend-diactoros": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gap\\Http\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "phpunit\\Gap\\Http\\": "phpunit"
+        }
+    },
+    "scripts": {
+        "test": [
+            "@phpcs",
+            "@phpmd",
+            "@phpstan",
+            "@phpunit"
+        ],
+        "phpunit": "phpunit",
+        "phpstan": "phpstan analyse -l 7 -c phpstan.neon phpunit src",
+        "phpcs": "phpcs --report=full --standard=psr2 --extensions=php src phpunit",
+        "phpmd": "phpmd src,phpunit text cleancode,codesize,controversial,design,naming,unusedcode"
+    }
+}
