@@ -23,7 +23,7 @@ class Request extends SymfonyRequest
             return '';
         }
 
-        if (is_null($session->get('userId'))){
+        if (is_null($session->get('userId'))) {
             return '';
         }
 
