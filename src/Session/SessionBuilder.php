@@ -3,7 +3,7 @@ namespace Gap\Http\Session;
 
 class SessionBuilder
 {
-    public function __construct($opts)
+    public function __construct(array $opts)
     {
         $validOptions = array_flip(array(
             'cache_limiter', 'cookie_domain', 'cookie_httponly',

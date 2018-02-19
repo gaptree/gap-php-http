@@ -13,7 +13,7 @@ class RequestFilterManager
         }
     }
 
-    public function addFitler(RequestFilterBase $requestFilter): self
+    public function addFilter(RequestFilterBase $requestFilter): self
     {
         $this->filters[] = $requestFilter;
         return $this;
