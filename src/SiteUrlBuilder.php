@@ -19,12 +19,12 @@ class SiteUrlBuilder
         // $protocol: http:// | https:// | //
         $protocol = $protocol ? $protocol : '//';
 
-        $host = $this->siteManager->getHost($site);
+        $baseUrl = $this->siteManager->getBaseUrl($site);
         if ($path[0] !== '/') {
             $path = '/' . $path;
         }
 
-        return $protocol . $host . $path
+        return $protocol . $baseUrl . $path
             . ($query ? ('?' . http_build_query($query)) : '');
     }
 

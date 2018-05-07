@@ -16,6 +16,9 @@ class SiteUrlBuilderTest extends TestCase
             'www' => [
                 'host' => 'www.gaptree.com',
             ],
+            'front' => [
+                'host' => 'www.gaptree.com/web',
+            ],
             'static' => [
                 'host' => 'static.gaptree.com',
                 'dir' => '%baseDir%/site/static',
@@ -34,6 +37,16 @@ class SiteUrlBuilderTest extends TestCase
             'https://www.gaptree.com/a/b/c',
             $this->siteUrlBuilder->url(
                 'www',
+                '/a/b/c',
+                [],
+                'https://'
+            )
+        );
+
+        $this->assertEquals(
+            'https://www.gaptree.com/web/a/b/c',
+            $this->siteUrlBuilder->url(
+                'front',
                 '/a/b/c',
                 [],
                 'https://'

@@ -3,12 +3,34 @@ namespace Gap\Http;
 
 class SiteManager
 {
-    protected $siteMap = [];
-    protected $hostMap = [];
+    private $siteMap = [];
+    private $hostMap = [];
+
+    private $baseUrlMap = [];
+    private $siteArr = [];
+    private $optsArr = [];
+    private $regex = '';
 
     public function __construct(array $siteMap)
     {
         $this->siteMap = $siteMap;
+
+        $regex = '~^(?';
+        foreach ($siteMap as $site => $opts) {
+            $this->siteArr[] = $site;
+            $this->optsArr[] = $opts;
+
+            $host = $opts['host'] ?? '';
+            $baseUrl = $opts['baseUrl'] ?? $host;
+
+            $this->hostMap[$host] = $site;
+            $this->baseUrlMap[$baseUrl] = $site;
+
+            $regex .= '|(' . $baseUrl . ')(.*)';
+        }
+
+        $regex .= ')$~x';
+        $this->regex = $regex;
     }
 
     public function getSite(string $host): string
@@ -23,21 +45,35 @@ class SiteManager
         return $hostMap[$host];
     }
 
+    public function parse(string $url): array
+    {
+        if (!preg_match($this->regex, $url, $matches)) {
+            return ['', ''];
+        }
+        $baseUrl = $matches[1];
+        $path = $matches[2];
+        $baseUrlMap = $this->getBaseUrlMap();
+
+        return [$baseUrlMap[$baseUrl], $path];
+    }
+
     public function getHost(string $site): string
     {
         return $this->siteMap[$site]['host'];
     }
 
-    protected function getHostMap(): array
+    public function getBaseUrl(string $site): string
     {
-        if ($this->hostMap) {
-            return $this->hostMap;
-        }
+        return $this->siteMap[$site]['baseUrl'] ?? $this->getHost($site);
+    }
 
-        foreach ($this->siteMap as $site => $opts) {
-            $this->hostMap[$opts['host']] = $site;
-        }
-
+    private function getHostMap(): array
+    {
         return $this->hostMap;
+    }
+
+    private function getBaseUrlMap(): array
+    {
+        return $this->baseUrlMap;
     }
 }
