@@ -59,12 +59,12 @@ class SiteManager
 
     public function getHost(string $site): string
     {
-        return $this->siteMap[$site]['host'];
+        return $this->siteMap[$site]['host'] ?? ($this->siteMap[$site]['baseUrl'] ?? '');
     }
 
     public function getBaseUrl(string $site): string
     {
-        return $this->siteMap[$site]['baseUrl'] ?? $this->getHost($site);
+        return $this->siteMap[$site]['baseUrl'] ?? ($this->siteMap[$site]['host'] ?? '');
     }
 
     private function getHostMap(): array
